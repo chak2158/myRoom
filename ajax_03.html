@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        table{
+            border: solid;
+        }
+        td{
+            border: solid;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ajax Xml parseing</h1>
+    <button onclick="getXml()">data가져오기</button>
+    <p id="xml"></p>
+
+    <script>
+        /*
+        $.ajax();
+        $.getJSON();
+        $.get();
+        $.put();
+        */
+        var xhttp, xmlDoc, txt, x, y, i;
+
+        function getXml() {
+           
+            xhttp = new XMLHttpRequest();
+            //xhttp.setRequestHeader("myKey","myValue");
+            xhttp.onreadystatechange = function() {
+                //console.log(this.readyState);
+                console.log(this.status);
+                if (this.readyState == 4 && this.status == 200/*this.statusText == OK*/){
+                    xmlDoc = this.responseXML;
+                    console.log(xmlDoc);
+                    txt = "";
+                    x = xmlDoc.getElementsByTagName("ARTIST");
+                    y = xmlDoc.getElementsByTagName("TITLE");
+                    txt+="<table><tr><th>ARTIST</th><th>TITLE</th></tr>";
+                    for (i = 0; i < x.length; i++) {
+                        
+                        txt += "<tr><td>"+x[i].innerHTML+"</td><td>"+y[i].innerHTML+"</td></tr>";
+                        //txt += x[i].childNodes[0].nodeValue + "<hr>";
+                       
+                    }
+                    txt+="</table>";
+                    document.getElementById("xml").innerHTML = txt;
+                }
+            }
+            xhttp.open("GET", "ajax.xml", true);
+            xhttp.send();
+            
+        }
+    </script>
+</body></html>
